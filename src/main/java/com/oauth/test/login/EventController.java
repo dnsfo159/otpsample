@@ -42,7 +42,16 @@ public class EventController {
         System.out.println("데이터 확인 " + user.getSecretkey());
         key = user.getSecretkey();    //???;
 
-        return otp.checkCode(outnumbered,key);
+
+
+        boolean check = false;
+        if(otp.checkCode(outnumbered,key)){
+            jpatest2U(user,true);
+            check = true;
+
+        }
+
+        return check;
     }
 
     @GetMapping("/otpSetting")
@@ -69,6 +78,11 @@ public class EventController {
 
     public void jpatest1U(tb_Login user , String key) {
         user.setSecretkey(key);
+        userRepository.save(user);
+    }
+
+    public void jpatest2U(tb_Login user , boolean key) {
+        user.setOtpYN(key);
         userRepository.save(user);
     }
 

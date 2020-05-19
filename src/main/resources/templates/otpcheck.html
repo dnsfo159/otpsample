@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<script src="/webjars/jquery/2.2.1/jquery.min.js"></script>
+<script src="/webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#checkBtn").on("click",function(){
+            var num = $("#otpNum").val();
+            var id = sessionStorage.getItem("id");
+            $.ajax({
+                type: 'GET',
+                url: "http://localhost:8080/otplastcheck",
+                data : {
+                    "outnumbered" : num,
+                    "id" : id
+                },
+                success : function(data){
+                    if(data){
+                        alert("otp 완료!");
+                        window.location.href="/local/main"
+                    }else{
+                        alert("otp 번호를 다시 입력해주시기 바랍니다.")
+                    }
+                }
+
+            })
+
+        })
+
+
+    });
+</script>
+
+<body>
+
+화면에 띄워져있는 번호를 입력해주세요
+<br/>
+<input type="text" id="otpNum">
+<br/>
+<button id="checkBtn" type="button"> 확인 </button>
+
+</body>
+</html>

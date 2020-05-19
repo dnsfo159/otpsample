@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://architectureproejct.c4xhvnbz6ssa.ap-northeast-2.rds.amazonaws.com/revocation_db?serverTimezone=UTC&characterEncoding=UTF-8
+    hikari:
+      username: admin
+      password: tigermaster
+      maximum-pool-size: 10
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      format_sql: true
+      ddl-auto: update
+  #      ddl-auto: create
+  loggin:
+    level:
+      org:
+        hibernate:
+          SQL: DEBUG
+          type:
+            descriptor:
+              sql:
+                BasicBinder: TRACE
+
+  thymeleaf:
+    prefix: classpath:templates/
+
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 639464003751-qpmosbhn2s4io1f9u69ql4htuenutptq.apps.googleusercontent.com
+            client-secret: N-Fbl078iuckg2TjLzk7nsRJ
+

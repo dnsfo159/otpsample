@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="/webjars/jquery/2.2.1/jquery.min.js"></script>
+<script src="/webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        const id = sessionStorage.getItem("id");
+
+        const otpYN = sessionStorage.getItem("otpYN");
+
+
+        $("#loginId").text(id);
+
+        if(otpYN){
+            console.log(true);
+        }else{
+            console.log(false);
+        }
+
+        $("#otpSettingBtn").on("click",function(){
+            //otp 설정 버튼
+            $.ajax({
+                type : 'GET',
+                url : "http://localhost:8080/otpSetting",
+                data : {
+                    "id" : id
+
+                },
+                success : function (data){
+                    console.log("데이터 확인");
+                    console.log(data);
+
+                    $("#encodeedKey").text(data.encodedKey);
+                    $("#form_url").attr("src", data.url);
+
+                    $("#createImage").css("display" , "block");
+                }
+            })
+
+        });
+
+        $("#otpcheckbtn").on("click",function(){
+            var otpnumber = $("#otpchecktext").val();
+
+            console.log(otpnumber);
+
+            $.ajax({
+                type: 'GET',
+                url: "http://localhost:8080/otplastcheck",
+                data : {
+                    "outnumbered" : otpnumber,
+                    "id" : id
+                },
+                success : function(data){
+                    if(data){
+                        alert("otp 설정이 완료되었습니다. 다시 로그인 해주시기 바랍니다.");
+                        window.location.href="/local/login"
+                    }else{
+                        alert("otp 번호를 다시 입력해주시기 바랍니다.")
+                    }
+                }
+
+            })
+
+        })
+
+    });
+
+</script>
+
+
+<body>
+로그인 성공 <p id="loginId"></p>
+<button type="button" id="otpSettingBtn">OTP 설정</button>
+
+<br />
+
+<div id="createImage" style="display: none">
+    <img id="form_url">
+    <br />
+    <p id="encodeedKey"></p>
+
+    <br />
+
+    <input type="text" id="otpchecktext">
+    <button id="otpcheckbtn">버튼</button>
+</div>
+
+</body>
+</html>

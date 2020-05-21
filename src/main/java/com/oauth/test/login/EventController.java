@@ -69,6 +69,7 @@ public class EventController {
 
     public void jpatest1U(tb_Login user , String key) {
         user.setSecretkey(key);
+        user.setOtpYN(true);
         userRepository.save(user);
     }
 
